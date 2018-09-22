@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const mysql = require ("mysql");
+require("console.table");
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -15,3 +16,13 @@ connection.connect(err => {
     }
     console.log("Connected!");
 });
+
+const loadProducts = () => {
+    connection.query("SELECT * FROM products",(err, res) => {
+        if (err) {
+        throw err;
+        }
+    
+        console.table(res);
+    });
+}
