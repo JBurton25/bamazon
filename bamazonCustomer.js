@@ -15,6 +15,7 @@ connection.connect(err => {
         console.error(`error connecting: ${err}`);
     }
     console.log("Connected!");
+    loadProducts();
 });
 
 const loadProducts = () => {
@@ -58,15 +59,16 @@ const promptCustomerForItem = inventory => {
     });
 }
 //ensure item.id fits the category in the database table.  
-const checkInventory = (choiceId, inventory) => {
+const checkInventory = (choiceID, inventory) => {
     
     const item = inventory.filter(item => item.id === choiceID);
     return item.length > 0 ? item[0] : null;
 }
+
 const makePurchase = (product, quantity) => {
     connection.query(
-        "UPDATE products SET stock_quantity = stock_quantity - ? WHERE item_id = ?",
-        [quantity, product.item_id],
+        "UPDATE products SET stock_quantity = stock_quantity - ? WHERE id = ?",
+        [quantity, product.id],
         function(err, res) {
           // Let the user know the purchase was successful, re-run loadProducts
           console.log("\nSuccessfully purchased " + quantity + " " + product.product_name + "'s!");
